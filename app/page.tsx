@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -8,7 +8,6 @@ export default function Home() {
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
   const [noButtonSize, setNoButtonSize] = useState(1);
   const [escapeCount, setEscapeCount] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const escapeMessages = [
     "No",
@@ -24,14 +23,19 @@ export default function Home() {
   ];
 
   const handleNoHover = () => {
-    if (!containerRef.current) return;
+    const buttonWidth = 150;
+    const buttonHeight = 60;
+    const padding = 20;
 
-    const container = containerRef.current.getBoundingClientRect();
-    const maxX = container.width - 150;
-    const maxY = container.height - 60;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
 
-    const newX = Math.random() * maxX - maxX / 2;
-    const newY = Math.random() * maxY - maxY / 2;
+    // Keep button within viewport bounds with padding
+    const maxX = (viewportWidth - buttonWidth) / 2 - padding;
+    const maxY = (viewportHeight - buttonHeight) / 2 - padding;
+
+    const newX = (Math.random() * 2 - 1) * Math.min(maxX, 150);
+    const newY = (Math.random() * 2 - 1) * Math.min(maxY, 200);
 
     setNoButtonPosition({ x: newX, y: newY });
     setNoButtonSize((prev) => Math.max(0.5, prev - 0.05));
@@ -43,10 +47,7 @@ export default function Home() {
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="vhs-container min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
-    >
+    <div className="vhs-container min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
       {/* VHS overlay effects */}
       <div className="scanlines"></div>
       <div className="vhs-noise"></div>

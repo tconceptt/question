@@ -49,7 +49,7 @@ export default function YesPage() {
         </h1>
 
         <p className="text-2xl md:text-4xl mb-8 text-cyan-400 vhs-flicker">
-          I&apos;m so hyped right now
+          I knew you&apos;d say yes
         </p>
 
         {/* Happy GIF */}
